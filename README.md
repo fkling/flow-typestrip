@@ -54,5 +54,5 @@ fs.writeFileSync('result.js.map', JSON.stringify(result.map));
 
 ## Acknowledgments
 
-- [Facebook] for(https://github.com/facebook) building [Flow](https://github.com/facebook/flow).
+- [Facebook](https://github.com/facebook) for building [Flow](https://github.com/facebook/flow).
 - [Ben Newman](https://github.com/benjamn) for building [recast](https://github.com/benjamn/recast) and [ast-types](https://github.com/benjamn/ast-types).
