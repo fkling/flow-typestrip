@@ -1,0 +1,11 @@
+{
+  "node": true,
+  "global" : [
+    "jest",
+    "transform",
+    "describe",
+    "it",
+    "expect"
+  ],
+  "evil": true
+}

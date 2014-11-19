@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+
+/* jshint node:true */
+
+var path = require('path');
+var fs = require('fs');
+var mkdirp = require('mkdirp');
+var assert = require('assert');
+
+var flowtypeStrip = require('../');
+
+var yargs = require('yargs')
+  .usage('Remove Flow type annotations from JS source files.\nUsage: $0')
+  .example('$0 source.js > out.js', 'Remove type annotations and store output in out.js')
+  .boolean('source-maps')
+  .describe('source-maps', 'Output source maps.')
+  .alias('o', 'output')
+  .describe('o', 'The file or folder to store the output in.')
+  .requiresArg('o')
+  .demand(1);
+
+var argv = yargs.argv;
+var files = argv._;
+
+switch (files.length) {
+  case 1:
+    if (argv['source-maps'] && !argv.output) {
+      process.stderr.write(
+        'error: cannot enable source maps when outputting to stdout\n'
+      );
+      process.exit(1);
+    }
+    var target;
+
+    if (fs.existsSync(argv.output) && fs.statSync(argv.output).isDirectory()) {
+      target = path.join(argv.output, path.basename(files[0]));
+    } else {
+      target = argv.output;
+    }
+
+    if (target) {
+      transpileFile(files[0], target);
+    } else {
+      var result = flowtypeStrip.compile(fs.readFileSync(files[0]).toString());
+      process.stdout.write(result.code);
+    }
+    break;
+
+  default:
+    if (!argv.output) {
+      process.stderr.write('error: missing argument for `--output`\n');
+      process.exit(1);
+    }
+    files.forEach(function(file) {
+      transpileFile(file, path.join(argv.output, file.replace(/^(\.\.\/)+/, '')));
+    });
+    break;
+}
+
+function transpileFile(file, target) {
+  var sourceMapTarget;
+  var fileOptions = {};
+  if (argv['source-maps']) {
+    sourceMapTarget = target + '.map';
+    fileOptions.sourceFileName = target;
+    fileOptions.sourceMapName = sourceMapTarget;
+  }
+  var result = flowtypeStrip.compile(
+    fs.readFileSync(file).toString(),
+    fileOptions
+  );
+  mkdirp.sync(path.dirname(target));
+  fs.writeFileSync(target, result.code);
+  if (argv['source-maps']) {
+    assert.ok(
+      result.map,
+      'expected source map but got nothing for file: ' + file
+    );
+    fs.writeFileSync(sourceMapTarget, JSON.stringify(result.map, null, 2));
+  }
+}
