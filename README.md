@@ -7,7 +7,8 @@ typed JavaScript code, so that the code can be executed in JavaScript environmen
 Alternatives: [react-tools](https://www.npmjs.org/package/react-tools) also
 [strips type annotations](http://flowtype.org/docs/running.htm).
 
-**Caveat:** flow-typestrip is currently not able to process files with
+## Caveat
+flow-typestrip is currently not able to process files with
 [type aliases](http://flowtype.org/docs/type-aliases.html), [declarations](http://flowtype.org/docs/declarations.html)
 and interfaces, because these nodes lack support in ast-types. [A pull request
 to add support is out](https://github.com/benjamn/ast-types/pull/77).
@@ -53,5 +54,5 @@ fs.writeFileSync('result.js.map', JSON.stringify(result.map));
 
 ## Acknowledgments
 
-- [Facebook for](https://github.com/facebook) building [Flow](https://github.com/facebook/flow).
+- [Facebook] for(https://github.com/facebook) building [Flow](https://github.com/facebook/flow).
 - [Ben Newman](https://github.com/benjamn) for building [recast](https://github.com/benjamn/recast) and [ast-types](https://github.com/benjamn/ast-types).
