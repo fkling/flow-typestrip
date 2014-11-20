@@ -1,5 +1,4 @@
-# flow-typestrip [![Build
-Status](https://travis-ci.org/fkling/flow-typestrip.svg?branch=master)](https://travis-ci.org/fkling/flow-typestrip)
+# flow-typestrip [![Build Status](https://travis-ci.org/fkling/flow-typestrip.svg?branch=master)](https://travis-ci.org/fkling/flow-typestrip)
 
 flow-typestrip is a [recast](https://www.npmjs.org/package/recast) based
 transform to remove [**Flow**](http://flowtype.org/) type annotations from
