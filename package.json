@@ -1,6 +1,6 @@
 {
   "name": "flow-typestrip",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Recast based transform to remove Flow type annotations.",
   "main": "index.js",
   "bin": {
