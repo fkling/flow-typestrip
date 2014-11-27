@@ -5,6 +5,24 @@ var through = require('through');
 var recast = require('recast');
 var types = recast.types;
 
+function remove(path) {
+  path.replace();
+  return false;
+}
+
+function transformClass(path) {
+  path.get('typeParameters').replace();
+  path.get('superTypeParameters').replace();
+  path.get('implements').replace();
+  this.traverse(path);
+}
+
+function transformPattern(path) {
+  path.get('typeAnnotation').replace();
+  this.traverse(path);
+}
+
+
 /**
  * Compile the given Flow typed JavaScript source into JavaScript usable in
  * today's runtime environments.
@@ -34,43 +52,31 @@ function compile(source, options) {
  */
 function transform(ast) {
 
-   function remove(path) {
-     path.replace();
-     return false;
-   }
-
   types.visit(ast, {
     visitIdentifier: function(path) {
       path.get('optional').replace();
       path.get('typeAnnotation').replace();
-      this.traverse(path);
+      return false;
     },
     visitFunction: function(path) {
       path.get('returnType').replace();
       path.get('typeParameters').replace();
       this.traverse(path);
     },
-    visitClassDeclaration: function(path) {
-      path.get('typeParameters').replace();
-      path.get('superTypeParameters').replace();
-      this.traverse(path);
-    },
-    visitClassExpression: function(path) {
-      path.get('typeParameters').replace();
-      path.get('superTypeParameters').replace();
-      this.traverse(path);
-    },
-    visitArrayPattern: function(path) {
-      path.get('typeAnnotation').replace();
-      this.traverse(path);
-    },
-    visitObjectPattern: function(path) {
-      path.get('typeAnnotation').replace();
-      this.traverse(path);
-    },
+    visitClassDeclaration: transformClass,
+    visitClassExpression: transformClass,
+    visitArrayPattern: transformPattern,
+    visitObjectPattern: transformPattern,
+    visitTypeAnnotation: remove,
     visitClassImplements: remove,
     visitClassProperty: remove,
-    visitInterfaceDeclaration: remove
+    visitInterfaceDeclaration: remove,
+    visitTypeAlias: remove,
+    visitDeclareVariable: remove,
+    visitDeclareFunction: remove,
+    visitDeclareClass: remove,
+    visitDeclareModule: remove,
+    visitType: remove,
   });
 
   return ast;

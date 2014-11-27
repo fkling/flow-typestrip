@@ -31,7 +31,6 @@ describe('static type interface syntax', function() {
 
   describe('Interface Declaration', function()  {
     it('strips interface declarations', function()  {
-      /* TODO: Depends on support of InterfaceDeclartion nodes in ast-types
       var code = transform([
         'var interface = 42;',
         'interface A { foo: () => number; }',
@@ -41,7 +40,6 @@ describe('static type interface syntax', function() {
       ]);
       eval(code);
       expect(interface).toBe(126);
-      */
     });
   });
 });

@@ -31,16 +31,14 @@ describe('static type syntax syntax', function() {
 
   describe('type alias', function() {
     it('strips type aliases', function() {
-      /* TODO: Depends on support for TypeAlias nodes in ast-types
-      var code = flowStrip.compile([
+      var code = transform([
         'var type = 42;',
         'type FBID = number;',
         'type type = string',
         'type += 42;'
-      ].join('\n'));
-      eval(transform(code));
+      ]);
+      eval(code);
       expect(type).toBe(84);
-    */
     });
   });
 });
