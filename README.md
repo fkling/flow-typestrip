@@ -5,7 +5,7 @@ transform to remove [**Flow**](http://flowtype.org/) type annotations from
 typed JavaScript code, so that the code can be executed in JavaScript environments.
 
 **Alternatives:** [react-tools](https://www.npmjs.org/package/react-tools) also
-[strips type annotations](http://flowtype.org/docs/running.htm). You should use 
+[strips type annotations](http://flowtype.org/docs/running.html). You should use 
 it if you are also using React / JSX.
 
 ## Install
